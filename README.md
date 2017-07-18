@@ -1,6 +1,7 @@
-# 基于 Vagrant 的 LAMP 开发环境搭建
+基于 Vagrant 的 LAMP 开发环境搭建
+---
 
-![Vagrant](http://img.antsky.net/vagrant2.png)
+![Vagrant](./vagrant.png)
 
 ### 1. Vagrant 介绍
 
@@ -41,15 +42,16 @@
 
 * 下载地址：[https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 
-```
-# 终端下验证 Vagrant 是否安装成功
-$ vagrant --version
-Vagrant 1.9.1
-```
+	```bash
+	# 终端下验证 Vagrant 是否安装成功
+	$ vagrant --version
+	Vagrant 1.9.1
+	```
 
 ### 3. 配置、启动 Vagrant
 
 #### 3.1. 增加一个 box
+
 ```
 # 方式一：使用 box 的绝对地址
 $ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
@@ -186,31 +188,32 @@ BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 * 方式一：使用*一键LAMP&LNMP编译安装包*，请到[这里下载](/Linux/sh-1.5.5/)；
 * 方式二：使用 ubuntu 的 apt-get 直接安装二进制包，如下：
 
-```
-# 安装 MySQL
-$ sudo apt-get install mysql-server mysql-client
-
-# 安装 Apache
-$ sudo apt-get install apache2
-
-# 安装 PHP
-$ sudo add-apt-repository ppa:ondrej/php
-$ sudo apt-get update
-$ sudo apt-get install php5.6
-
-# 安装 PHP 扩展
-$ sudo apt-get install libapache2-mod-php5.6 php5.6-mysql php5.6-gd php5.6-curl php5.6-dev php5.6-xml php5.6-mbstring
-
------------------------------------
-# 测试
-$ sudo vim /var/www/html/info.php
-<?php phpinfo();
-
-$ curl localhost 或从宿主机访问
-
-```
+	```
+	# 安装 MySQL
+	$ sudo apt-get install mysql-server mysql-client
+	
+	# 安装 Apache
+	$ sudo apt-get install apache2
+	
+	# 安装 PHP
+	$ sudo add-apt-repository ppa:ondrej/php
+	$ sudo apt-get update
+	$ sudo apt-get install php5.6
+	
+	# 安装 PHP 扩展
+	$ sudo apt-get install libapache2-mod-php5.6 php5.6-mysql php5.6-gd php5.6-curl php5.6-dev php5.6-xml php5.6-mbstring
+	
+	-----------------------------------
+	# 测试
+	$ sudo vim /var/www/html/info.php
+	<?php phpinfo();
+	
+	$ curl localhost 或从宿主机访问
+	
+	```
 
 ### 5. 附录
+
 #### 5.1. 常用命令
 
 ```

@@ -1,7 +1,27 @@
-基于 Vagrant 的 LAMP 开发环境搭建
----
+# 基于 Vagrant 的 LAMP 开发环境搭建
 
 ![Vagrant](./vagrant.png)
+
+### 索引
+
+---
+
+1. Vagrant 介绍
+2. 安装 Vagrant 和 VirtualBox
+	- 2.1. 安装 VirtualBox（支持 Windows/macOS/Linux）
+	- 2.2. 安装 Vagrant（支持 Windows/macOS/Debian/CentOS）
+3. 配置、启动 Vagrant
+	- 3.1. 增加一个 box
+	- 3.2. 初始化、启动
+	- 3.3. ssh 到虚拟机
+4. 配置 LAMP
+5. 附录
+	- 5.1. 常用命令
+	- 5.2. Vagrantfile 常用配置
+	- 5.3. 解决 mount: unknown filesystem type 'vboxsf'
+	- 5.4. 关闭静态文件缓存
+
+---
 
 ### 1. Vagrant 介绍
 

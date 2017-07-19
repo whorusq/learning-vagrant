@@ -6,31 +6,39 @@
 
 ### 索引
 
-1. [Vagrant 介绍](#index1)
-2. [安装 Vagrant 和 VirtualBox](#index2)
-	- 2.1. [安装 VirtualBox（支持 Windows/macOS/Linux）](#index21)
-	- 2.2. [安装 Vagrant（支持 Windows/macOS/Debian/CentOS）](#index22)
-3. [配置、启动 Vagrant](#index3)
-	- 3.1. [增加一个 box](#index31)
-	- 3.2. [初始化、启动](#index32)
-	- 3.3. [ssh 到虚拟机](#index33)
-4. [配置 LAMP](#index4)
-5. [附录](#index5)
-	- 5.1. [常用命令](#index51)
-	- 5.2. [Vagrantfile 常用配置](#index52)
-	- 5.3. [解决 mount: unknown filesystem type 'vboxsf'](#index53)
-	- 5.4. [关闭静态文件缓存](#index54)
+1. [Vagrant 介绍](#1-vagrant-介绍)
+2. [安装 Vagrant 和 VirtualBox](#2-安装-vagrant-和-virtualbox)
+	- 2.1. [安装 VirtualBox（支持 Windows/macOS/Linux）](#21-安装-VirtualBox（支持-windowsmacoslinux）)
+	- 2.2. [安装 Vagrant（支持 Windows/macOS/Debian/CentOS）](#22-安装-vagrant（支持-windowsmacosdebiancentos）)
+3. [配置、启动 Vagrant](#3-配置启动-vagrant)
+	- 3.1. [增加一个 box](#31-增加一个-box)
+	- 3.2. [初始化、启动](#32-初始化启动)
+	- 3.3. [ssh 到虚拟机](#33-ssh-到虚拟机)
+4. [配置 LAMP](#4-配置-lamp)
+5. [附录](#5-附录)
+	- 5.1. [常用命令](#51-常用命令)
+	- 5.2. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
+	- 5.3. [解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
+	- 5.4. [关闭静态文件缓存](#54-关闭静态文件缓存)
+
+[vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
+[vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
+[vagrant-box]: https://atlas.hashicorp.com/boxes/search "Vagrant box"
+[vagrant-box-thd]: http://www.vagrantbox.es "Vagrant box"
+[vagrant-docker]: https://www.zhihu.com/question/32324376 "Vagrant Docker"
+[virtualbox-download]: https://www.virtualbox.org/wiki/Downloads "Virtualbox Download"
+[vagrant-download]: https://www.vagrantup.com/downloads.html "Vagrant Download"
 
 ---
 
-### 1. <span id="index1">Vagrant 介绍</span>
+### 1. Vagrant 介绍
 
 相关资源
 
-* 官网：[https://www.vagrantup.com](https://www.vagrantup.com/)
-* 文档：[https://www.vagrantup.com/docs](https://www.vagrantup.com/docs/)
-* 官方 box 仓库：[https://atlas.hashicorp.com/boxes/search](https://atlas.hashicorp.com/boxes/search)
-* 第三方 box 仓库：[http://www.vagrantbox.es](http://www.vagrantbox.es/)
+* 官网：[https://www.vagrantup.com][vagrant-homepage]
+* 文档：[https://www.vagrantup.com/docs][vagrant-docs]
+* 官方 box 仓库：[https://atlas.hashicorp.com/boxes/search][vagrant-box]
+* 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]
 
 下面是节选自官方对 Vagrant 的说明：
 
@@ -40,27 +48,27 @@
 >
 > To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**, **AWS**, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
 
-其实，说白了 Vagrant 就是一个普普通通的装了 Linux 的 VirtualBox 虚拟机，配以 Vagrant  团队为之开发的一系列套件，辅助完成诸如安装初始化、文件同步、ssh、部署环境升级、功能插件安装等等一些列问题的开发环境部署套件。（参见知乎话题：[VAGRANT 和 Docker的使用场景和区别?](https://www.zhihu.com/question/32324376)）
+其实，说白了 Vagrant 就是一个普普通通的装了 Linux 的 VirtualBox 虚拟机，配以 Vagrant  团队为之开发的一系列套件，辅助完成诸如安装初始化、文件同步、ssh、部署环境升级、功能插件安装等等一些列问题的开发环境部署套件。（参见知乎话题：[Vagrant 和 Docker的使用场景和区别?][vagrant-docker]
 
 解决的痛点：
 
 * 开发环境快速部署
 * 开发环境更迭
 
-### 2. <span id="index2">安装 Vagrant 和 VirtualBox</span>
+### 2. 安装 Vagrant 和 VirtualBox
 
 > 官方说明中，Vagrant 是支持 VirtualBox/VMware/AWS 等虚拟软件的，选择 VirtualBox 主要是因为开源、免费
 >
 > 安装过程都是傻瓜化的，一路下一步即可
 
-#### 2.1. <span id="index21">安装 VirtualBox（支持 Windows/macOS/Linux）</span>
+#### 2.1. 安装 VirtualBox（支持 Windows/macOS/Linux）
 
-* 下载地址：[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+* 下载地址：[https://www.virtualbox.org/wiki/Downloads][virtualbox-download]
 * 推荐同时安装扩展 **VirtualBox xxxx Oracle VM VirtualBox Extension Pack**
 
-#### 2.2. <span id="index22">安装 Vagrant（支持 Windows/macOS/Debian/CentOS）</span>
+#### 2.2. 安装 Vagrant（支持 Windows/macOS/Debian/CentOS）
 
-* 下载地址：[https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
+* 下载地址：[https://www.vagrantup.com/downloads.html][vagrant-download]
 
 	```bash
 	# 终端下验证 Vagrant 是否安装成功
@@ -68,9 +76,9 @@
 	Vagrant 1.9.1
 	```
 
-### 3. <span id="index3">配置、启动 Vagrant</span>
+### 3. 配置、启动 Vagrant
 
-#### 3.1. <span id="index31">增加一个 box</span>
+#### 3.1. 增加一个 box
 
 ```
 # 方式一：使用 box 的绝对地址
@@ -94,7 +102,7 @@ ubuntu1404 (virtualbox, 0)
 
 ```
 
-#### 3.2. <span id="index32">初始化、启动</span>
+#### 3.2. 初始化、启动
 
 ```
 # 创建一个工作目录
@@ -182,7 +190,7 @@ simply run `vagrant up`.
 虽然 Vagrant 已经启动运行了，但是在启动过程报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，详见附录部分：**5.3. 解决 mount: unknown filesystem type 'vboxsf'**
 
 
-#### 3.3. <span id="index33">ssh 到虚拟机</span>
+#### 3.3. ssh 到虚拟机
 
 ```
 $ vagrant ssh
@@ -201,7 +209,7 @@ SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 ```
 
-### 4. <span id="index4">配置 LAMP</span>
+### 4. 配置 LAMP
 
 上一步已经启动了一个 Linux 的虚拟机，之后的环境搭建，我们就按照正常服务器搭建的流程来操作即可，这里主要介绍两种搭建 LAMP 环境的方式：
 
@@ -232,9 +240,9 @@ BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 	
 	```
 
-### 5. <span id="index5">附录</span>
+### 5. 附录
 
-#### 5.1. <span id="index51">常用命令</span>
+#### 5.1. 常用命令
 
 ```
 # 添加 box
@@ -273,7 +281,7 @@ $ vagrant 命令名 -h
 
 ```
 
-#### 5.2. <span id="index52">Vagrantfile 常用配置</span>
+#### 5.2. Vagrantfile 常用配置
 
 ```
 # 虚拟机的 hostname
@@ -298,7 +306,7 @@ config.vm.provider "virtualbox" do |vb|
 end
 ```
 
-#### 5.3. <span id="index53">解决 mount: unknown filesystem type 'vboxsf'</span>
+#### 5.3. 解决 mount: unknown filesystem type 'vboxsf'
 
 + 关闭虚拟机 `$ vagrant halt`
 + 使用 VirtualBox 启动虚拟机
@@ -313,7 +321,7 @@ end
 
 + 安装成功后，重新启动 `$ vagrant up`
 
-#### 5.4. <span id="index54">关闭静态文件缓存</span>
+#### 5.4. 关闭静态文件缓存
 
 使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：
 

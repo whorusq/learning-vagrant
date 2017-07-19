@@ -8,8 +8,8 @@
 
 1. [Vagrant 介绍](#1-vagrant-介绍)
 2. [安装 Vagrant 和 VirtualBox](#2-安装-vagrant-和-virtualbox)
-	- 2.1. [安装 VirtualBox（支持 Windows/macOS/Linux）](#21-安装-VirtualBox（支持-windowsmacoslinux）)
-	- 2.2. [安装 Vagrant（支持 Windows/macOS/Debian/CentOS）](#22-安装-vagrant（支持-windowsmacosdebiancentos）)
+	- 2.1. [安装 VirtualBox（支持 Windows/macOS/Linux）](#21-安装-virtualbox支持-windowsmacoslinux)
+	- 2.2. [安装 Vagrant（支持 Windows/macOS/Debian/CentOS）](#22-安装-vagrant支持-windowsmacosdebiancentos)
 3. [配置、启动 Vagrant](#3-配置启动-vagrant)
 	- 3.1. [增加一个 box](#31-增加一个-box)
 	- 3.2. [初始化、启动](#32-初始化启动)

@@ -1,4 +1,3 @@
-## 基于 Vagrant 的 LAMP 开发环境搭建
 
 ![Vagrant](./vagrant.png)
 
@@ -14,7 +13,7 @@
 	- 3.1. [增加一个 box](#31-增加一个-box)
 	- 3.2. [初始化、启动](#32-初始化启动)
 	- 3.3. [ssh 到虚拟机](#33-ssh-到虚拟机)
-4. [配置 LAMP](#4-配置-lamp)
+4. [基于 Vagrant 的 LAMP 开发环境搭建](#4-基于-vagrant-的-lamp-开发环境搭建)
 5. [附录](#5-附录)
 	- 5.1. [常用命令](#51-常用命令)
 	- 5.2. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
@@ -39,6 +38,8 @@
 * 文档：[https://www.vagrantup.com/docs][vagrant-docs]
 * 官方 box 仓库：[https://atlas.hashicorp.com/boxes/search][vagrant-box]
 * 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]
+* CentOS 官方 box 地址：[http://cloud.centos.org/centos/7/vagrant/x86_64/images/](http://cloud.centos.org/centos/7/vagrant/x86_64/images/)
+* Ubuntu 官方 box 地址：[http://cloud-images.ubuntu.com](http://cloud-images.ubuntu.com)
 
 下面是节选自官方对 Vagrant 的说明：
 
@@ -48,7 +49,9 @@
 >
 > To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**, **AWS**, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
 
-其实，说白了 Vagrant 就是一个普普通通的装了 Linux 的 VirtualBox 虚拟机，配以 Vagrant  团队为之开发的一系列套件，辅助完成诸如安装初始化、文件同步、ssh、部署环境升级、功能插件安装等等一些列问题的开发环境部署套件。（参见知乎话题：[Vagrant 和 Docker的使用场景和区别?][vagrant-docker]
+其实，说白了 Vagrant 就是一个普普通通的装了 Linux 的 VirtualBox 虚拟机，配以 Vagrant  团队为之开发的一系列套件，辅助完成诸如安装初始化、文件同步、ssh、部署环境升级、功能插件安装等等一些列问题的开发环境部署套件。
+
+参见知乎话题：[Vagrant 和 Docker的使用场景和区别?][vagrant-docker]
 
 解决的痛点：
 
@@ -57,9 +60,9 @@
 
 ### 2. 安装 Vagrant 和 VirtualBox
 
-> 官方说明中，Vagrant 是支持 VirtualBox/VMware/AWS 等虚拟软件的，选择 VirtualBox 主要是因为开源、免费
+> 官方说明中，Vagrant 是支持 VirtualBox/VMware/AWS 等虚拟软件的，选择 VirtualBox 主要是因为开源、免费、轻便。
 >
-> 安装过程都是傻瓜化的，一路下一步即可
+> 具体的安装过程没有什么特殊设置，一路下一步即可。
 
 #### 2.1. 安装 VirtualBox（支持 Windows/macOS/Linux）
 
@@ -80,11 +83,11 @@
 
 #### 3.1. 增加一个 box
 
-```
+```bash
 # 方式一：使用 box 的绝对地址
 $ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
 
-# 方式二：使用下载好的本地 box 文件（推荐此种方式，可从第三方仓库下载）
+# 方式二：使用下载好的本地 box 文件（ → 推荐此种方式，可从第三方仓库下载）
 $ vagrant box add ubuntu1404 ./ubuntu-14.04-amd64.box
 ==> box: Box file was not detected as metadata. Adding it directly...
 ==> box: Adding box 'ubuntu1404' (v0) for provider:
@@ -94,13 +97,15 @@ $ vagrant box add ubuntu1404 ./ubuntu-14.04-amd64.box
 # 方式三：使用 Vagrant 官方仓库中对应的 box 名称
 # 此种方式无法修改 box 名称，并且某些网络下访问缓慢
 $ vagrant box add ubuntu/trusty64
+```
 
------------------------------------
+```bash
 # 查看已经添加的 box
 $ vagrant box list
 ubuntu1404 (virtualbox, 0)
 
 ```
+
 
 #### 3.2. 初始化、启动
 
@@ -185,14 +190,15 @@ suspend the virtual machine. In either case, to restart it again,
 simply run `vagrant up`.
 ```
 
-完成上面的步骤，其实一个由 Vagrant 管理的虚拟机已经启动起来了。此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：**5.1. 常用命令**
+完成上面的步骤，其实一个由 Vagrant 管理的虚拟机已经启动起来了。
 
-虽然 Vagrant 已经启动运行了，但是在启动过程报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，详见附录部分：**5.3. 解决 mount: unknown filesystem type 'vboxsf'**
+此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[5.1. 常用命令](#51-常用命令)
 
+**注意**：虽然 Vagrant 已经启动运行了，但是在启动过程报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，详见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
 
 #### 3.3. ssh 到虚拟机
 
-```
+```bash
 $ vagrant ssh
 Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-24-generic x86_64)
 
@@ -209,14 +215,14 @@ SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 ```
 
-### 4. 配置 LAMP
+### 4. 基于 Vagrant 的 LAMP 开发环境搭建
 
 上一步已经启动了一个 Linux 的虚拟机，之后的环境搭建，我们就按照正常服务器搭建的流程来操作即可，这里主要介绍两种搭建 LAMP 环境的方式：
 
-* 方式一：使用*一键LAMP&LNMP编译安装包*，请到[这里下载](/Linux/sh-1.5.5/)；
+* 方式一：使用*一键LAMP&LNMP编译安装包*，[点击这里下载](/sh-1.5.5.tar.gz)；
 * 方式二：使用 ubuntu 的 apt-get 直接安装二进制包，如下：
 
-	```
+	```bash
 	# 安装 MySQL
 	$ sudo apt-get install mysql-server mysql-client
 	
@@ -244,7 +250,7 @@ BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 
 #### 5.1. 常用命令
 
-```
+```bash
 # 添加 box
 $ vagrant box add new-box-name box文件地址（本地、远程）
 
@@ -283,7 +289,7 @@ $ vagrant 命令名 -h
 
 #### 5.2. Vagrantfile 常用配置
 
-```
+```bash
 # 虚拟机的 hostname
 config.vm.hostname = "ubuntu1404-lamp”
 
@@ -308,24 +314,24 @@ end
 
 #### 5.3. 解决 mount: unknown filesystem type 'vboxsf'
 
-+ 关闭虚拟机 `$ vagrant halt`
-+ 使用 VirtualBox 启动虚拟机
-+ 添加虚拟机增强工具：依次单击菜单【设备】→【安装增强功能】
-+ 在 VirtualBox 中登录虚拟机，并执行以下命令挂载、安装
+- 关闭虚拟机 `$ vagrant halt`
+- 使用 VirtualBox 启动虚拟机
+- 添加虚拟机增强工具：依次单击菜单【设备】→【安装增强功能】
+- 在 VirtualBox 中登录虚拟机，并执行以下命令挂载、安装
 
-    ```
-    sudo mount /dev/cdrom /media/cdrom
-    cd /media/cdrom/
-    sudo ./VBoxLinuxAddtions.run
+    ```bash
+    $ sudo mount /dev/cdrom /media/cdrom
+    $ cd /media/cdrom/
+    $ sudo ./VBoxLinuxAddtions.run
     ```
 
-+ 安装成功后，重新启动 `$ vagrant up`
+- 安装成功后，重新启动 `$ vagrant up`
 
 #### 5.4. 关闭静态文件缓存
 
 使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：
 
-```
+```bash
 # Apache 配置（httpd.conf 或者 apache.conf）添加：
 EnableSendfile off
 

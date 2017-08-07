@@ -110,11 +110,11 @@ ubuntu1404 (virtualbox, 0)
 #### 3.2. 初始化、启动
 
 ```
-# 创建一个工作目录
+# 1.创建一个工作目录
 $ mkdir -p ~/vagrant/lamp
 $ cd ~/vagrant/lamp
 
-# 以名字为 ubuntu1404 的 box 初始化 Vagrant
+# 2.以名字为 ubuntu1404 的 box 初始化 Vagrant
 $ vagrant init ubuntu1404
 
 A `Vagrantfile` has been placed in this directory. You are now
@@ -128,7 +128,7 @@ drwxr-xr-x  3 用户名  staff   102  3  2 21:13 .
 drwxr-xr-x  5 用户名  staff   170  3  2 18:47 ..
 -rw-r--r--  1 用户名  staff  3011  3  2 21:13 Vagrantfile
 
-# 启动 Vagrant
+# 3.启动 Vagrant
 $ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Importing base box 'ubuntu1404'...
@@ -178,7 +178,7 @@ The error output from the command was:
 mount: unknown filesystem type 'vboxsf'
 
 
-# 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
+# 4.查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
 $ vagrant status
 Current machine states:
 

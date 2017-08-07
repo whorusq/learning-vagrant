@@ -194,7 +194,7 @@ simply run `vagrant up`.
 
 此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[5.1. 常用命令](#51-常用命令)
 
-**注意**：虽然 Vagrant 已经启动运行了，但是在启动过程报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，详见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
+**注意**：虽然 Vagrant 已经启动运行了，但是在启动过程可能报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
 
 #### 3.3. ssh 到虚拟机
 

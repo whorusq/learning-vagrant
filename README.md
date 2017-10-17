@@ -83,39 +83,57 @@
 
 #### 3.1. 增加一个 box
 
+- 方式一：使用 box 的绝对地址
+
 ```bash
-# 方式一：使用 box 的绝对地址
 $ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
-
-# 方式二：使用下载好的本地 box 文件（ → 推荐此种方式，可从第三方仓库下载）
-$ vagrant box add ubuntu1404 ./ubuntu-14.04-amd64.box
-==> box: Box file was not detected as metadata. Adding it directly...
-==> box: Adding box 'ubuntu1404' (v0) for provider:
-    box: Unpacking necessary files from: file:///Users/用户名/vagrant/boxs/ubuntu-14.04-amd64.box
-==> box: Successfully added box 'ubuntu1404' (v0) for 'virtualbox'!
-
-# 方式三：使用 Vagrant 官方仓库中对应的 box 名称
-# 此种方式无法修改 box 名称，并且某些网络下访问缓慢
-$ vagrant box add ubuntu/trusty64
 ```
 
-```bash
-# 查看已经添加的 box
-$ vagrant box list
-ubuntu1404 (virtualbox, 0)
+- 方式二：使用提前下载好或之前导出的本地 box 文件（ 👍 推荐此种方式，可从 [第三方仓库][vagrant-box-thd] 下载）
 
+```bash
+$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box 
+==> box: Box file was not detected as metadata. Adding it directly...
+==> box: Adding box 'ubuntu1604' (v0) for provider: 
+    box: Unpacking necessary files from: file:///Users/sunqiang/myvagrant/boxs/xenial-server-cloudimg-amd64-vagrant.box
+==> box: Successfully added box 'ubuntu1604' (v0) for 'virtualbox'!
+```
+
+- 方式三：使用 [Vagrant 官方仓库][vagrant-box] 中对应的 box 名称
+
+```bash
+# 此种方式无法修改添加的 box 名称，并且在某些网络下可能比较缓慢，所以推荐使用方式二
+$ vagrant box add ubuntu/trusty64
+==> box: Loading metadata for box 'ubuntu/trusty64'
+    box: URL: https://atlas.hashicorp.com/ubuntu/trusty64
+==> box: Adding box 'ubuntu/trusty64' (v20171012.0.0) for provider: virtualbox
+    box: Downloading: https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/20171012.0.0/providers/virtualbox.box
+==> box: Successfully added box 'ubuntu/trusty64' (v20171012.0.0) for 'virtualbox'!
+```
+
+**使用如下命令检查 box 是否添加成功**
+
+```bash
+$ vagrant box list
+ubuntu/trusty64 (virtualbox, 20171012.0.0)
+ubuntu1604      (virtualbox, 0)
 ```
 
 
 #### 3.2. 初始化、启动
 
-```
-# 1.创建一个工作目录
+- 1. 创建一个工作目录
+
+```bash
 $ mkdir -p ~/vagrant/lamp
 $ cd ~/vagrant/lamp
+```
 
-# 2.以名字为 ubuntu1404 的 box 初始化 Vagrant
-$ vagrant init ubuntu1404
+- 2. 以名字为 *ubuntu/xeninal64* 的 box 初始化 Vagrant
+
+```bash
+$ vagrant init ubuntu/xeninal64
+
 
 A `Vagrantfile` has been placed in this directory. You are now
 ready to `vagrant up` your first virtual environment! Please read
@@ -127,11 +145,14 @@ total 8
 drwxr-xr-x  3 用户名  staff   102  3  2 21:13 .
 drwxr-xr-x  5 用户名  staff   170  3  2 18:47 ..
 -rw-r--r--  1 用户名  staff  3011  3  2 21:13 Vagrantfile
+```
 
-# 3.启动 Vagrant
+- 3. 启动 Vagrant
+
+```bash
 $ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
-==> default: Importing base box 'ubuntu1404'...
+==> default: Importing base box 'ubuntu/xenial64'...
 ==> default: Matching MAC address for NAT networking...
 ==> default: Setting the name of the VM: lamp_default_1488461535325_84495
 ==> default: Fixed port collision for 22 => 2222. Now on port 2201.
@@ -176,9 +197,11 @@ mount -t vboxsf -o uid=1000,gid=1000 vagrant /vagrant
 The error output from the command was:
 
 mount: unknown filesystem type 'vboxsf'
+```
 
+- 4. 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
 
-# 4.查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
+```bash
 $ vagrant status
 Current machine states:
 
@@ -194,25 +217,68 @@ simply run `vagrant up`.
 
 此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[5.1. 常用命令](#51-常用命令)
 
-**注意**：虽然 Vagrant 已经启动运行了，但是在启动过程可能报错：`mount: unknown filesystem type 'vboxsf'` 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
+**注意**：
+
+> 虽然 Vagrant 已经启动运行了，但是在启动过程可能会报错（一般存在于使用第三方下载的 box 时）：
+> 
+> `mount: unknown filesystem type 'vboxsf'` 
+>
+> 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
 
 #### 3.3. ssh 到虚拟机
 
+在工作目录下使用如下命令 ssh 登录到正在运行的虚拟机
+
 ```bash
 $ vagrant ssh
-Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-24-generic x86_64)
+Welcome to Ubuntu 16.04.3 LTS (GNU/Linux 4.4.0-97-generic x86_64)
 
- * Documentation:  https://help.ubuntu.com/
-vagrant@vagrant-ubuntu-trusty:~$ cat /etc/os-release
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+_____________________________________________________________________
+WARNING! Your environment specifies an invalid locale.
+ The unknown environment variables are:
+   LC_CTYPE=zh_CN.UTF-8 LC_ALL=
+ This can affect your user experience significantly, including the
+ ability to manage packages. You may install the locales by running:
+
+   sudo apt-get install language-pack-zh
+     or
+   sudo locale-gen zh_CN.UTF-8
+
+To see all available language packs, run:
+   apt-cache search "^language-pack-[a-z][a-z]$"
+To disable this message for all users, run:
+   sudo touch /var/lib/cloud/instance/locale-check.skip
+_____________________________________________________________________
+ubuntu@ubuntu-xenial:~$ sudo locale-gen zh_CN.UTF-8
+Generating locales (this might take a while)...
+  zh_CN.UTF-8... done
+Generation complete.
+ubuntu@ubuntu-xenial:~$ cat /etc/os-release
 NAME="Ubuntu"
-VERSION="14.04, Trusty Tahr"
+VERSION="16.04.3 LTS (Xenial Xerus)"
 ID=ubuntu
 ID_LIKE=debian
-PRETTY_NAME="Ubuntu 14.04 LTS"
-VERSION_ID="14.04"
+PRETTY_NAME="Ubuntu 16.04.3 LTS"
+VERSION_ID="16.04"
 HOME_URL="http://www.ubuntu.com/"
 SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
+ubuntu@ubuntu-xenial:~$ exit
+logout
+Connection to 127.0.0.1 closed.
 ```
 
 ### 4. 基于 Vagrant 的 LAMP 开发环境搭建

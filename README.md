@@ -19,6 +19,8 @@
 	- 5.2. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
 	- 5.3. [解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
 	- 5.4. [关闭静态文件缓存](#54-关闭静态文件缓存)
+	- 5.5. [虚拟机与宿主机时间同步设置](#55-虚拟机与宿主机时间同步设置)
+	- 5.6. [安装 VirtualBox 扩展工具](#56-安装-virtualbox-扩展工具)
 
 [vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
@@ -356,8 +358,8 @@ $ vagrant 命令名 -h
 #### 5.2. Vagrantfile 常用配置
 
 ```bash
-# 虚拟机的 hostname
-config.vm.hostname = "ubuntu1404-lamp”
+# 虚拟机中 linux 的 hostname
+config.vm.hostname = "ubuntu1604-lamp"
 
 # 网络设置，一般设置私有（private_network）网络，并结合端口映射
 config.vm.network "private_network", ip: "192.168.47.10"
@@ -373,8 +375,8 @@ config.vm.provider "virtualbox" do |vb|
 #   vb.gui = true
 #
 #   # Customize the amount of memory on the VM:
-    vb.memory = "1024"
-    vb.name = "ubuntu1404-lamp”
+    vb.memory = "512"
+    vb.name = "ubuntu1604-lamp"
 end
 ```
 
@@ -404,3 +406,67 @@ EnableSendfile off
 # Nginx 配置（nginx.conf）添加：
 sendfile off;
 ```
+
+#### 5.5. 虚拟机与宿主机时间同步设置
+
+```bash
+# 
+$ VBoxManage list vms
+"win7" {87fd57f0-ef1f-4e6d-8529-0fee472ba76a}
+"win10" {a7edfd3b-0706-43f6-bd3d-b79dc796eb28}
+"ubuntu1604" {72329a00-87e3-40be-b5fc-a4417ce2aecb}
+
+# 
+$ VBoxManage getextradata "ubuntu1604" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled"
+No value set!
+
+# 
+$ VBoxManage setextradata "ubuntu1604" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled" 0
+
+# 已经设置成功
+$ VBoxManage getextradata "ubuntu1604" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled"
+Value: 0
+
+# 重新启动虚拟机以加载修改的配置
+$ vagrant reload
+```
+
+
+#### 5.6. 安装 VirtualBox 扩展工具
+
+如果使用官方 box 初始化虚拟机，其实得到的是一个纯净的镜像，一些基础工具和设置需要你自己来配置（所以，还是推荐使用方式二）。
+
+比如想要实现文件夹共享、网络、端口映射等，必须要安装 VirtualBox 扩展工具，具体安装方式如下：
+
+```bash
+# 进入虚拟机
+$ vagrant ssh
+
+# 安装所需开发工具
+ubuntu@ubuntu1604:~$ sudo apt-get install linux-headers-$(uname -r) build-essential dkms
+
+# VBoxGuestAdditions 扩展的版本，前三位，如：5.1.28
+# 所有可用版本：http://download.virtualbox.org/virtualbox
+ubuntu@ubuntu1604:~$  cd /tmp
+ubuntu@ubuntu1604:~$  wget http://download.virtualbox.org/virtualbox/<扩展的版本>/VBoxGuestAdditions_<扩展的版本>.iso
+ubuntu@ubuntu1604:~$  sudo mkdir /media/VBoxGuestAdditions
+ubuntu@ubuntu1604:~$  sudo mount -o loop,ro VBoxGuestAdditions_<扩展的版本>.iso /media/VBoxGuestAdditions
+ubuntu@ubuntu1604:~$  sudo sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
+ubuntu@ubuntu1604:~$  rm VBoxGuestAdditions_<扩展的版本>.iso
+ubuntu@ubuntu1604:~$  sudo umount /media/VBoxGuestAdditions
+ubuntu@ubuntu1604:~$  sudo rmdir /media/VBoxGuestAdditions
+ubuntu@ubuntu1604:~$ exit
+
+# 重启虚拟机
+$ vagrant reload
+```
+
+参照：[https://www.vagrantup.com/docs/virtualbox/boxes.html](https://www.vagrantup.com/docs/virtualbox/boxes.html)
+
+**自动检查同步新版本**
+
+```bash
+$ vagrant plugin install vagrant-vbguest
+```
+
+之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。

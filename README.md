@@ -63,8 +63,7 @@
 ### 2. 安装 Vagrant 和 VirtualBox
 
 > 官方说明中，Vagrant 是支持 VirtualBox/VMware/AWS 等虚拟软件的，选择 VirtualBox 主要是因为开源、免费、轻便。
->
-> 具体的安装过程没有什么特殊设置，一路下一步即可。
+
 
 #### 2.1. 安装 VirtualBox（支持 Windows/macOS/Linux）
 
@@ -81,139 +80,148 @@
 	Vagrant 1.9.1
 	```
 
+**关于软件升级**：
+
+- 不要单独升级 VirtualBox 或 Vagrant ，二者需要版本匹配，如果你的 VirtualBox 升级了最新版本，那么一定要检查 Vagrant 是否也做了更新。
+- 升级 VirtualBox 时，需同时升级扩展。
+- 升级 Vagrant 时候，推荐先卸载，再安装最新版本。
+
 ### 3. 配置、启动 Vagrant
 
-#### 3.1. 增加一个 box
+#### 3.1. 添加一个 box
+
+> 原始的 box 是一个包含了基本系统和设置的镜像包，你可以通过基础包安装软件或做一些自定义配置，然后导出来成为新的基础包，再次使用的时候，直接导入你之前导出的这个  box 即可。
 
 - 方式一：使用 box 的绝对地址
 
-```bash
-$ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
-```
+	```bash
+	$ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
+	```
 
 - 方式二：使用提前下载好或之前导出的本地 box 文件（ 👍 推荐此种方式，可从 [第三方仓库][vagrant-box-thd] 下载）
 
-```bash
-$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box 
-==> box: Box file was not detected as metadata. Adding it directly...
-==> box: Adding box 'ubuntu1604' (v0) for provider: 
-    box: Unpacking necessary files from: file:///Users/sunqiang/myvagrant/boxs/xenial-server-cloudimg-amd64-vagrant.box
-==> box: Successfully added box 'ubuntu1604' (v0) for 'virtualbox'!
-```
+	```bash
+	$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box 
+	==> box: Box file was not detected as metadata. Adding it directly...
+	==> box: Adding box 'ubuntu1604' (v0) for provider: 
+	    box: Unpacking necessary files from: file:///Users/sunqiang/myvagrant/boxs/xenial-server-cloudimg-amd64-vagrant.box
+	==> box: Successfully added box 'ubuntu1604' (v0) for 'virtualbox'!
+	```
 
 - 方式三：使用 [Vagrant 官方仓库][vagrant-box] 中对应的 box 名称
 
-```bash
-# 此种方式无法修改添加的 box 名称，并且在某些网络下可能比较缓慢，所以推荐使用方式二
-$ vagrant box add ubuntu/trusty64
-==> box: Loading metadata for box 'ubuntu/trusty64'
-    box: URL: https://atlas.hashicorp.com/ubuntu/trusty64
-==> box: Adding box 'ubuntu/trusty64' (v20171012.0.0) for provider: virtualbox
-    box: Downloading: https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/20171012.0.0/providers/virtualbox.box
-==> box: Successfully added box 'ubuntu/trusty64' (v20171012.0.0) for 'virtualbox'!
-```
+	```bash
+	# 此种方式无法修改添加的 box 名称
+	# 并且在某些情况下，下载速度可能比较缓慢，所以推荐使用方式二
+	$ vagrant box add ubuntu/trusty64
+	==> box: Loading metadata for box 'ubuntu/trusty64'
+	    box: URL: https://atlas.hashicorp.com/ubuntu/trusty64
+	==> box: Adding box 'ubuntu/trusty64' (v20171012.0.0) for provider: virtualbox
+	    box: Downloading: https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/20171012.0.0/providers/virtualbox.box
+	==> box: Successfully added box 'ubuntu/trusty64' (v20171012.0.0) for 'virtualbox'!
+	```
 
-**使用如下命令检查 box 是否添加成功**
+检查 box 是否添加成功
 
 ```bash
 $ vagrant box list
-ubuntu/trusty64 (virtualbox, 20171012.0.0)
+ubuntu/xenial64 (virtualbox, 20171011.0.0)
 ubuntu1604      (virtualbox, 0)
 ```
 
 
 #### 3.2. 初始化、启动
 
-- 1. 创建一个工作目录
+- 创建一个工作目录
 
-```bash
-$ mkdir -p ~/vagrant/lamp
-$ cd ~/vagrant/lamp
-```
+	```bash
+	$ mkdir -p ~/vagrant/lamp
+	$ cd ~/vagrant/lamp
+	```
 
-- 2. 以名字为 *ubuntu/xeninal64* 的 box 初始化 Vagrant
+- 以名字为 *ubuntu/xeninal64* 的 box 初始化 Vagrant
 
-```bash
-$ vagrant init ubuntu/xeninal64
+	```bash
+	$ vagrant init ubuntu/xeninal64
+	
+	
+	A `Vagrantfile` has been placed in this directory. You are now
+	ready to `vagrant up` your first virtual environment! Please read
+	the comments in the Vagrantfile as well as documentation on
+	`vagrantup.com` for more information on using Vagrant.
+	
+	$ ls -la
+	total 8
+	drwxr-xr-x  3 用户名  staff   102  3  2 21:13 .
+	drwxr-xr-x  5 用户名  staff   170  3  2 18:47 ..
+	-rw-r--r--  1 用户名  staff  3011  3  2 21:13 Vagrantfile
+	```
 
+- 启动 Vagrant
 
-A `Vagrantfile` has been placed in this directory. You are now
-ready to `vagrant up` your first virtual environment! Please read
-the comments in the Vagrantfile as well as documentation on
-`vagrantup.com` for more information on using Vagrant.
+	```bash
+	$ vagrant up
+	Bringing machine 'default' up with 'virtualbox' provider...
+	==> default: Importing base box 'ubuntu/xenial64'...
+	==> default: Matching MAC address for NAT networking...
+	==> default: Setting the name of the VM: lamp_default_1488461535325_84495
+	==> default: Fixed port collision for 22 => 2222. Now on port 2201.
+	==> default: Clearing any previously set network interfaces...
+	==> default: Preparing network interfaces based on configuration...
+	    default: Adapter 1: nat
+	==> default: Forwarding ports...
+	    default: 22 (guest) => 2201 (host) (adapter 1)
+	==> default: Booting VM...
+	==> default: Waiting for machine to boot. This may take a few minutes...
+	    default: SSH address: 127.0.0.1:2201
+	    default: SSH username: vagrant
+	    default: SSH auth method: private key
+	    default: Warning: Remote connection disconnect. Retrying...
+	    default:
+	    default: Vagrant insecure key detected. Vagrant will automatically replace
+	    default: this with a newly generated keypair for better security.
+	    default:
+	    default: Inserting generated public key within guest...
+	    default: Removing insecure key from the guest if it's present...
+	    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+	==> default: Machine booted and ready!
+	==> default: Checking for guest additions in VM...
+	    default: No guest additions were detected on the base box for this VM! Guest
+	    default: additions are required for forwarded ports, shared folders, host only
+	    default: networking, and more. If SSH fails on this machine, please install
+	    default: the guest additions and repackage the box to continue.
+	    default:
+	    default: This is not an error message; everything may continue to work properly,
+	    default: in which case you may ignore this message.
+	==> default: Mounting shared folders...
+	    default: /vagrant => /Users/用户名/myvagrant/lamp
+	Vagrant was unable to mount VirtualBox shared folders. This is usually
+	because the filesystem "vboxsf" is not available. This filesystem is
+	made available via the VirtualBox Guest Additions and kernel module.
+	Please verify that these guest additions are properly installed in the
+	guest. This is not a bug in Vagrant and is usually caused by a faulty
+	Vagrant box. For context, the command attempted was:
+	
+	mount -t vboxsf -o uid=1000,gid=1000 vagrant /vagrant
+	
+	The error output from the command was:
+	
+	mount: unknown filesystem type 'vboxsf'
+	```
 
-$ ls -la
-total 8
-drwxr-xr-x  3 用户名  staff   102  3  2 21:13 .
-drwxr-xr-x  5 用户名  staff   170  3  2 18:47 ..
--rw-r--r--  1 用户名  staff  3011  3  2 21:13 Vagrantfile
-```
+- 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
 
-- 3. 启动 Vagrant
-
-```bash
-$ vagrant up
-Bringing machine 'default' up with 'virtualbox' provider...
-==> default: Importing base box 'ubuntu/xenial64'...
-==> default: Matching MAC address for NAT networking...
-==> default: Setting the name of the VM: lamp_default_1488461535325_84495
-==> default: Fixed port collision for 22 => 2222. Now on port 2201.
-==> default: Clearing any previously set network interfaces...
-==> default: Preparing network interfaces based on configuration...
-    default: Adapter 1: nat
-==> default: Forwarding ports...
-    default: 22 (guest) => 2201 (host) (adapter 1)
-==> default: Booting VM...
-==> default: Waiting for machine to boot. This may take a few minutes...
-    default: SSH address: 127.0.0.1:2201
-    default: SSH username: vagrant
-    default: SSH auth method: private key
-    default: Warning: Remote connection disconnect. Retrying...
-    default:
-    default: Vagrant insecure key detected. Vagrant will automatically replace
-    default: this with a newly generated keypair for better security.
-    default:
-    default: Inserting generated public key within guest...
-    default: Removing insecure key from the guest if it's present...
-    default: Key inserted! Disconnecting and reconnecting using new SSH key...
-==> default: Machine booted and ready!
-==> default: Checking for guest additions in VM...
-    default: No guest additions were detected on the base box for this VM! Guest
-    default: additions are required for forwarded ports, shared folders, host only
-    default: networking, and more. If SSH fails on this machine, please install
-    default: the guest additions and repackage the box to continue.
-    default:
-    default: This is not an error message; everything may continue to work properly,
-    default: in which case you may ignore this message.
-==> default: Mounting shared folders...
-    default: /vagrant => /Users/用户名/myvagrant/lamp
-Vagrant was unable to mount VirtualBox shared folders. This is usually
-because the filesystem "vboxsf" is not available. This filesystem is
-made available via the VirtualBox Guest Additions and kernel module.
-Please verify that these guest additions are properly installed in the
-guest. This is not a bug in Vagrant and is usually caused by a faulty
-Vagrant box. For context, the command attempted was:
-
-mount -t vboxsf -o uid=1000,gid=1000 vagrant /vagrant
-
-The error output from the command was:
-
-mount: unknown filesystem type 'vboxsf'
-```
-
-- 4. 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
-
-```bash
-$ vagrant status
-Current machine states:
-
-default                   running (virtualbox)
-
-The VM is running. To stop this VM, you can run `vagrant halt` to
-shut it down forcefully, or you can run `vagrant suspend` to simply
-suspend the virtual machine. In either case, to restart it again,
-simply run `vagrant up`.
-```
+	```bash
+	$ vagrant status
+	Current machine states:
+	
+	default                   running (virtualbox)
+	
+	The VM is running. To stop this VM, you can run `vagrant halt` to
+	shut it down forcefully, or you can run `vagrant suspend` to simply
+	suspend the virtual machine. In either case, to restart it again,
+	simply run `vagrant up`.
+	```
 
 完成上面的步骤，其实一个由 Vagrant 管理的虚拟机已经启动起来了。
 

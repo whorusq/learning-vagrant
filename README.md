@@ -24,7 +24,7 @@
 
 [vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
-[vagrant-box]: https://atlas.hashicorp.com/boxes/search "Vagrant box"
+[vagrant-box]: https://app.vagrantup.com/boxes/search "Vagrant box"
 [vagrant-box-thd]: http://www.vagrantbox.es "Vagrant box"
 [vagrant-docker]: https://www.zhihu.com/question/32324376 "Vagrant Docker"
 [virtualbox-download]: https://www.virtualbox.org/wiki/Downloads "Virtualbox Download"
@@ -38,7 +38,7 @@
 
 * 官网：[https://www.vagrantup.com][vagrant-homepage]
 * 文档：[https://www.vagrantup.com/docs][vagrant-docs]
-* 官方 box 仓库：[https://atlas.hashicorp.com/boxes/search][vagrant-box]
+* 官方 box 仓库：[https://app.vagrantup.com/boxes/search][vagrant-box]
 * 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]
 * CentOS 官方 box 地址：[http://cloud.centos.org/centos/7/vagrant/x86_64/images/](http://cloud.centos.org/centos/7/vagrant/x86_64/images/)
 * Ubuntu 官方 box 地址：[http://cloud-images.ubuntu.com](http://cloud-images.ubuntu.com)
@@ -49,7 +49,8 @@
 >
 > Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.
 >
-> To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**, **AWS**, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
+> To achieve its magic, Vagrant stands on the
+oulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**, **AWS**, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
 
 其实，说白了 Vagrant 就是一个普普通通的装了 Linux 的 VirtualBox 虚拟机，配以 Vagrant  团队为之开发的一系列套件，辅助完成诸如安装初始化、文件同步、ssh、部署环境升级、功能插件安装等等一些列问题的开发环境部署套件。
 
@@ -101,9 +102,9 @@
 - 方式二：使用提前下载好或之前导出的本地 box 文件（ 👍 推荐此种方式，可从 [第三方仓库][vagrant-box-thd] 下载）
 
 	```bash
-	$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box 
+	$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box
 	==> box: Box file was not detected as metadata. Adding it directly...
-	==> box: Adding box 'ubuntu1604' (v0) for provider: 
+	==> box: Adding box 'ubuntu1604' (v0) for provider:
 	    box: Unpacking necessary files from: file:///Users/sunqiang/myvagrant/boxs/xenial-server-cloudimg-amd64-vagrant.box
 	==> box: Successfully added box 'ubuntu1604' (v0) for 'virtualbox'!
 	```
@@ -143,13 +144,13 @@ ubuntu1604      (virtualbox, 0)
 
 	```bash
 	$ vagrant init ubuntu/xeninal64
-	
-	
+
+
 	A `Vagrantfile` has been placed in this directory. You are now
 	ready to `vagrant up` your first virtual environment! Please read
 	the comments in the Vagrantfile as well as documentation on
 	`vagrantup.com` for more information on using Vagrant.
-	
+
 	$ ls -la
 	total 8
 	drwxr-xr-x  3 用户名  staff   102  3  2 21:13 .
@@ -201,11 +202,11 @@ ubuntu1604      (virtualbox, 0)
 	Please verify that these guest additions are properly installed in the
 	guest. This is not a bug in Vagrant and is usually caused by a faulty
 	Vagrant box. For context, the command attempted was:
-	
+
 	mount -t vboxsf -o uid=1000,gid=1000 vagrant /vagrant
-	
+
 	The error output from the command was:
-	
+
 	mount: unknown filesystem type 'vboxsf'
 	```
 
@@ -214,9 +215,9 @@ ubuntu1604      (virtualbox, 0)
 	```bash
 	$ vagrant status
 	Current machine states:
-	
+
 	default                   running (virtualbox)
-	
+
 	The VM is running. To stop this VM, you can run `vagrant halt` to
 	shut it down forcefully, or you can run `vagrant suspend` to simply
 	suspend the virtual machine. In either case, to restart it again,
@@ -230,8 +231,8 @@ ubuntu1604      (virtualbox, 0)
 **注意**：
 
 > 虽然 Vagrant 已经启动运行了，但是在启动过程可能会报错（一般存在于使用第三方下载的 box 时）：
-> 
-> `mount: unknown filesystem type 'vboxsf'` 
+>
+> `mount: unknown filesystem type 'vboxsf'`
 >
 > 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
 
@@ -295,31 +296,33 @@ Connection to 127.0.0.1 closed.
 
 上一步已经启动了一个 Linux 的虚拟机，之后的环境搭建，我们就按照正常服务器搭建的流程来操作即可，这里主要介绍两种搭建 LAMP 环境的方式：
 
-* 方式一：使用*一键LAMP&LNMP编译安装包*，[点击这里下载](/sh-1.5.5.tar.gz)；
+* 方式一：使用*一键LAMP&LNMP编译安装包*
+	- [sh-1.5.5.tar.gz](/sh-1.5.5.tar.gz)；
+	- [oneinstack-full.tar.gz](http://mirrors.linuxeye.com/oneinstack-full.tar.gz)  [更多详见官网](https://oneinstack.com/download/)
 * 方式二：使用 ubuntu 的 apt-get 直接安装二进制包，如下：
 
 	```bash
 	# 安装 MySQL
 	$ sudo apt-get install mysql-server mysql-client
-	
+
 	# 安装 Apache
 	$ sudo apt-get install apache2
-	
+
 	# 安装 PHP
 	$ sudo add-apt-repository ppa:ondrej/php
 	$ sudo apt-get update
 	$ sudo apt-get install php5.6
-	
+
 	# 安装 PHP 扩展
 	$ sudo apt-get install libapache2-mod-php5.6 php5.6-mysql php5.6-gd php5.6-curl php5.6-dev php5.6-xml php5.6-mbstring
-	
+
 	-----------------------------------
 	# 测试
 	$ sudo vim /var/www/html/info.php
 	<?php phpinfo();
-	
+
 	$ curl localhost 或从宿主机访问
-	
+
 	```
 
 ### 5. 附录
@@ -418,17 +421,17 @@ sendfile off;
 #### 5.5. 虚拟机与宿主机时间同步设置
 
 ```bash
-# 
+#
 $ VBoxManage list vms
 "win7" {87fd57f0-ef1f-4e6d-8529-0fee472ba76a}
 "win10" {a7edfd3b-0706-43f6-bd3d-b79dc796eb28}
 "ubuntu1604" {72329a00-87e3-40be-b5fc-a4417ce2aecb}
 
-# 
+#
 $ VBoxManage getextradata "ubuntu1604" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled"
 No value set!
 
-# 
+#
 $ VBoxManage setextradata "ubuntu1604" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled" 0
 
 # 已经设置成功

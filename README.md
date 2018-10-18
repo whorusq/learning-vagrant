@@ -15,13 +15,13 @@
 	- 3.3. [ssh 到虚拟机](#33-ssh-到虚拟机)
 4. [常用命令](#4-常用命令)
 5. [附录](#5-附录)
-	- 5.1. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
-	- 5.2. [关闭静态文件缓存](#54-关闭静态文件缓存)
-	- 5.3. [虚拟机与宿主机时间同步设置](#55-虚拟机与宿主机时间同步设置)
-	- 5.4. [安装 VirtualBox 扩展工具](#56-安装-virtualbox-扩展工具)
+	- 5.1. [Vagrantfile 常用配置](#51-vagrantfile-常用配置)
+	- 5.2. [关闭静态文件缓存](#52-关闭静态文件缓存)
+	- 5.3. [虚拟机与宿主机时间同步设置](#53-虚拟机与宿主机时间同步设置)
+	- 5.4. [安装 VirtualBox 扩展工具](#54-安装-virtualbox-扩展工具)
 6. [常见问题处理](#6-常见问题处理)
 	- 6.1. [mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
-	- 6.2. [mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
+	- 6.2. [vagrant@192.168.127.11: Permission denied (publickey,gssapi-keyex,gssapi-with-mic)](#62-vagrant19216812711-permission-denied-publickeygssapi-keyexgssapi-with-mic)
 
 [vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
@@ -438,7 +438,7 @@ $ vagrant plugin install vagrant-vbguest
 之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。
 
 
-# 6. 常见问题
+# 6. 常见问题处理
 
 #### 6.1. `mount: unknown filesystem type 'vboxsf'`
 

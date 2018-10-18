@@ -13,14 +13,15 @@
 	- 3.1. [增加一个 box](#31-增加一个-box)
 	- 3.2. [初始化、启动](#32-初始化启动)
 	- 3.3. [ssh 到虚拟机](#33-ssh-到虚拟机)
-4. [基于 Vagrant 的 LAMP 开发环境搭建](#4-基于-vagrant-的-lamp-开发环境搭建)
+4. [常用命令](#4-常用命令)
 5. [附录](#5-附录)
-	- 5.1. [常用命令](#51-常用命令)
-	- 5.2. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
-	- 5.3. [解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
-	- 5.4. [关闭静态文件缓存](#54-关闭静态文件缓存)
-	- 5.5. [虚拟机与宿主机时间同步设置](#55-虚拟机与宿主机时间同步设置)
-	- 5.6. [安装 VirtualBox 扩展工具](#56-安装-virtualbox-扩展工具)
+	- 5.1. [Vagrantfile 常用配置](#52-vagrantfile-常用配置)
+	- 5.2. [关闭静态文件缓存](#54-关闭静态文件缓存)
+	- 5.3. [虚拟机与宿主机时间同步设置](#55-虚拟机与宿主机时间同步设置)
+	- 5.4. [安装 VirtualBox 扩展工具](#56-安装-virtualbox-扩展工具)
+6. [常见问题处理](#6-常见问题处理)
+	- 6.1. [mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
+	- 6.2. [mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
 
 [vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
@@ -226,7 +227,7 @@ ubuntu1604      (virtualbox, 0)
 
 完成上面的步骤，其实一个由 Vagrant 管理的虚拟机已经启动起来了。
 
-此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[5.1. 常用命令](#51-常用命令)
+此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[4. 常用命令](#4-常用命令)
 
 **注意**：
 
@@ -234,7 +235,7 @@ ubuntu1604      (virtualbox, 0)
 >
 > `mount: unknown filesystem type 'vboxsf'`
 >
-> 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见附录部分：[5.3. 解决 mount: unknown filesystem type 'vboxsf'](#53-解决-mount-unknown-filesystem-type-vboxsf)
+> 这主要是下载的 box 里面 VirtualBox 扩展有问题，需要重新处理一下，参见常见问题部分：[6.1. mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
 
 #### 3.3. ssh 到虚拟机
 
@@ -292,42 +293,9 @@ logout
 Connection to 127.0.0.1 closed.
 ```
 
-### 4. 基于 Vagrant 的 LAMP 开发环境搭建
+> root 默认密码，通常为 vagrant
 
-上一步已经启动了一个 Linux 的虚拟机，之后的环境搭建，我们就按照正常服务器搭建的流程来操作即可，这里主要介绍两种搭建 LAMP 环境的方式：
-
-* 方式一：使用*一键LAMP&LNMP编译安装包*
-	- [sh-1.5.5.tar.gz](/sh-1.5.5.tar.gz)；
-	- [oneinstack-full.tar.gz](http://mirrors.linuxeye.com/oneinstack-full.tar.gz)  [更多详见官网](https://oneinstack.com/download/)
-* 方式二：使用 ubuntu 的 apt-get 直接安装二进制包，如下：
-
-	```bash
-	# 安装 MySQL
-	$ sudo apt-get install mysql-server mysql-client
-
-	# 安装 Apache
-	$ sudo apt-get install apache2
-
-	# 安装 PHP
-	$ sudo add-apt-repository ppa:ondrej/php
-	$ sudo apt-get update
-	$ sudo apt-get install php5.6
-
-	# 安装 PHP 扩展
-	$ sudo apt-get install libapache2-mod-php5.6 php5.6-mysql php5.6-gd php5.6-curl php5.6-dev php5.6-xml php5.6-mbstring
-
-	-----------------------------------
-	# 测试
-	$ sudo vim /var/www/html/info.php
-	<?php phpinfo();
-
-	$ curl localhost 或从宿主机访问
-
-	```
-
-### 5. 附录
-
-#### 5.1. 常用命令
+### 4. 常用命令
 
 ```bash
 # 添加 box
@@ -366,14 +334,16 @@ $ vagrant 命令名 -h
 
 ```
 
-#### 5.2. Vagrantfile 常用配置
+### 5. 附录
+
+#### 5.1. Vagrantfile 常用配置
 
 ```bash
 # 虚拟机中 linux 的 hostname
 config.vm.hostname = "ubuntu1604-lamp"
 
 # 网络设置，一般设置私有（private_network）网络，并结合端口映射
-config.vm.network "private_network", ip: "192.168.47.10"
+config.vm.network "private_network", ip: "192.168.127.11"
 config.vm.network "forwarded_port", guest: 80, host: 8080
 
 # 共享目录
@@ -391,22 +361,7 @@ config.vm.provider "virtualbox" do |vb|
 end
 ```
 
-#### 5.3. 解决 mount: unknown filesystem type 'vboxsf'
-
-- 关闭虚拟机 `$ vagrant halt`
-- 使用 VirtualBox 启动虚拟机
-- 添加虚拟机增强工具：依次单击菜单【设备】→【安装增强功能】
-- 在 VirtualBox 中登录虚拟机，并执行以下命令挂载、安装
-
-    ```bash
-    $ sudo mount /dev/cdrom /media/cdrom
-    $ cd /media/cdrom/
-    $ sudo ./VBoxLinuxAddtions.run
-    ```
-
-- 安装成功后，重新启动 `$ vagrant up`
-
-#### 5.4. 关闭静态文件缓存
+#### 5.2. 关闭静态文件缓存
 
 使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：
 
@@ -418,7 +373,7 @@ EnableSendfile off
 sendfile off;
 ```
 
-#### 5.5. 虚拟机与宿主机时间同步设置
+#### 5.3. 虚拟机与宿主机时间同步设置
 
 ```bash
 #
@@ -443,7 +398,7 @@ $ vagrant reload
 ```
 
 
-#### 5.6. 安装 VirtualBox 扩展工具
+#### 5.4. 安装 VirtualBox 扩展工具
 
 如果使用官方 box 初始化虚拟机，其实得到的是一个纯净的镜像，一些基础工具和设置需要你自己来配置（所以，还是推荐使用方式二）。
 
@@ -481,3 +436,29 @@ $ vagrant plugin install vagrant-vbguest
 ```
 
 之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。
+
+
+# 6. 常见问题
+
+#### 6.1. `mount: unknown filesystem type 'vboxsf'`
+
+- 关闭虚拟机 `$ vagrant halt`
+- 使用 VirtualBox 启动虚拟机
+- 添加虚拟机增强工具：依次单击菜单【设备】→【安装增强功能】
+- 在 VirtualBox 中登录虚拟机，并执行以下命令挂载、安装
+
+    ```bash
+    $ sudo mount /dev/cdrom /media/cdrom
+    $ cd /media/cdrom/
+    $ sudo ./VBoxLinuxAddtions.run
+    ```
+
+- 安装成功后，重新启动 `$ vagrant up`
+
+#### 6.2. `vagrant@192.168.127.11: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).`
+
+SSH默认禁用密码连接，只允许使用密钥登录，需修改文件 `/etc/ssh/sshd_config` 中如下部分：
+
+```
+PasswordAuthentication yes
+```

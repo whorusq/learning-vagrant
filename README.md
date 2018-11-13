@@ -22,6 +22,7 @@
 6. [常见问题处理](#6-常见问题处理)
 	- 6.1. [mount: unknown filesystem type 'vboxsf'](#61-mount-unknown-filesystem-type-vboxsf)
 	- 6.2. [vagrant@192.168.127.11: Permission denied (publickey,gssapi-keyex,gssapi-with-mic)](#62-vagrant19216812711-permission-denied-publickeygssapi-keyexgssapi-with-mic)
+	- 6.3. [/sbin/mount.vboxsf: mounting failed with the error: No such device](#63-sbinmountvboxsf-mounting-failed-with-the-error-no-such-device)
 
 [vagrant-homepage]: https://www.vagrantup.com "Vagrant homepage"
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
@@ -342,8 +343,12 @@ $ vagrant 命令名 -h
 # 虚拟机中 linux 的 hostname
 config.vm.hostname = "ubuntu1604-lamp"
 
-# 网络设置，一般设置私有（private_network）网络，并结合端口映射
+# 网络设置，一般设置私有（private_network）网络
+# 此时我们可以使用指定的 IP 加 端口号进行访问，比如使用 192.168.127.11:81 即可访问虚拟机里的 81 端口
 config.vm.network "private_network", ip: "192.168.127.11"
+
+# 将端口映射到宿主机
+# 在宿主机使用 127.0.0.1:8080 即可访问虚拟机里的 80 端口
 config.vm.network "forwarded_port", guest: 80, host: 8080
 
 # 共享目录

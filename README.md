@@ -411,14 +411,14 @@ $ vagrant ssh
 # 安装所需开发工具
 ubuntu@ubuntu1604:~$ sudo apt-get install linux-headers-$(uname -r) build-essential dkms
 
-# VBoxGuestAdditions 扩展的版本，前三位，如：5.1.28
+# VBoxGuestAdditions 扩展的版本，取前三位，如：5.2.20
 # 所有可用版本：http://download.virtualbox.org/virtualbox
 ubuntu@ubuntu1604:~$  cd /tmp
-ubuntu@ubuntu1604:~$  wget http://download.virtualbox.org/virtualbox/<扩展的版本>/VBoxGuestAdditions_<扩展的版本>.iso
+ubuntu@ubuntu1604:~$  wget http://download.virtualbox.org/virtualbox/5.2.20/VBoxGuestAdditions_5.2.20.iso
 ubuntu@ubuntu1604:~$  sudo mkdir /media/VBoxGuestAdditions
-ubuntu@ubuntu1604:~$  sudo mount -o loop,ro VBoxGuestAdditions_<扩展的版本>.iso /media/VBoxGuestAdditions
+ubuntu@ubuntu1604:~$  sudo mount -o loop,ro VBoxGuestAdditions_5.2.20.iso /media/VBoxGuestAdditions
 ubuntu@ubuntu1604:~$  sudo sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
-ubuntu@ubuntu1604:~$  rm VBoxGuestAdditions_<扩展的版本>.iso
+ubuntu@ubuntu1604:~$  rm VBoxGuestAdditions_5.2.20.iso
 ubuntu@ubuntu1604:~$  sudo umount /media/VBoxGuestAdditions
 ubuntu@ubuntu1604:~$  sudo rmdir /media/VBoxGuestAdditions
 ubuntu@ubuntu1604:~$ exit
@@ -461,4 +461,23 @@ SSH默认禁用密码连接，只允许使用密钥登录，需修改文件 `/et
 
 ```
 PasswordAuthentication yes
+```
+
+#### 6.3. `/sbin/mount.vboxsf: mounting failed with the error: No such device`
+
+```
+yum clean all
+yum update
+yum install -y kernel kernel-devel kernel-headers gcc make
+reboot
+```
+
+```
+cd /opt/VBoxGuestAdditions-*/init  
+./vboxadd setup
+reboot
+```
+
+```
+vagrant reload
 ```

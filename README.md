@@ -343,11 +343,14 @@ $ vagrant 命令名 -h
 # 虚拟机中 linux 的 hostname
 config.vm.hostname = "ubuntu1604-lamp"
 
-# 网络设置，一般设置私有（private_network）网络
+# 网络设置1 - 公有（public_network）网络（允许局域网中其他机器访问）
+config.vm.network "public_network", ip: "192.168.1.223"
+
+# 网络设置2 - 私有（private_network）网络（只允许主机访问虚拟机）
 # 此时我们可以使用指定的 IP 加 端口号进行访问，比如使用 192.168.127.11:81 即可访问虚拟机里的 81 端口
 config.vm.network "private_network", ip: "192.168.127.11"
 
-# 将端口映射到宿主机
+# 网络设置3 - 将端口映射到宿主机
 # 在宿主机使用 127.0.0.1:8080 即可访问虚拟机里的 80 端口
 config.vm.network "forwarded_port", guest: 80, host: 8080
 

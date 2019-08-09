@@ -1,16 +1,17 @@
 
 ![Vagrant](./vagrant.png)
 
+Vagrant 入门指引
 ---
 
-### 索引
+### 目录
 
 1. [Vagrant 介绍](#1-vagrant-介绍)
 2. [安装 Vagrant 和 VirtualBox](#2-安装-vagrant-和-virtualbox)
 	- 2.1. [安装 VirtualBox（支持 Windows/macOS/Linux）](#21-安装-virtualbox支持-windowsmacoslinux)
 	- 2.2. [安装 Vagrant（支持 Windows/macOS/Debian/CentOS）](#22-安装-vagrant支持-windowsmacosdebiancentos)
 3. [配置、启动 Vagrant](#3-配置启动-vagrant)
-	- 3.1. [增加一个 box](#31-增加一个-box)
+	- 3.1. [添加一个 box](#31-添加一个-box)
 	- 3.2. [初始化、启动](#32-初始化启动)
 	- 3.3. [ssh 到虚拟机](#33-ssh-到虚拟机)
 4. [常用命令](#4-常用命令)
@@ -39,7 +40,8 @@
 相关资源
 
 * 官网：[https://www.vagrantup.com][vagrant-homepage]
-* 文档：[https://www.vagrantup.com/docs][vagrant-docs]
+* 文档（英文）：[https://www.vagrantup.com/docs][vagrant-docs]
+* 文档（中文）：[https://tangbaoping.github.io/vagrant_doc_zh/v2](https://tangbaoping.github.io/vagrant_doc_zh/v2)
 * 官方 box 仓库：[https://app.vagrantup.com/boxes/search][vagrant-box]
 * 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]
 * CentOS 官方 box 地址：[http://cloud.centos.org/centos/7/vagrant/x86_64/images/](http://cloud.centos.org/centos/7/vagrant/x86_64/images/)
@@ -58,7 +60,7 @@ oulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**
 
 参见知乎话题：[Vagrant 和 Docker的使用场景和区别?][vagrant-docker]
 
-解决的痛点：
+**解决的痛点**：
 
 * 开发环境快速部署
 * 开发环境更迭
@@ -68,42 +70,71 @@ oulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**
 > 官方说明中，Vagrant 是支持 VirtualBox/VMware/AWS 等虚拟软件的，选择 VirtualBox 主要是因为开源、免费、轻便。
 
 
-#### 2.1. 安装 VirtualBox（支持 Windows/macOS/Linux）
+#### 2.1. 安装 VirtualBox
 
-* 下载地址：[https://www.virtualbox.org/wiki/Downloads][virtualbox-download]
-* 推荐同时安装扩展 **VirtualBox xxxx Oracle VM VirtualBox Extension Pack**
+VirtualBox 支持 Windows、macOS、Linux 等系统。
 
-#### 2.2. 安装 Vagrant（支持 Windows/macOS/Debian/CentOS）
+下载地址：[https://www.virtualbox.org/wiki/Downloads][virtualbox-download]
 
-* 下载地址：[https://www.vagrantup.com/downloads.html][vagrant-download]
+建议同时安装扩展 **VirtualBox xxxx Oracle VM VirtualBox Extension Pack**
 
-	```bash
-	# 终端下验证 Vagrant 是否安装成功
-	$ vagrant --version
-	Vagrant 1.9.1
-	```
+#### 2.2. 安装 Vagrant
 
-**关于软件升级**：
+Vagrant 支持 Windows、CentOS、Linux x64、macOS 等系统。
 
-- 不要单独升级 VirtualBox 或 Vagrant ，二者需要版本匹配，如果你的 VirtualBox 升级了最新版本，那么一定要检查 Vagrant 是否也做了更新。
-- 升级 VirtualBox 时，需同时升级扩展。
-- 升级 Vagrant 时候，推荐先卸载，再安装最新版本。
+下载地址：[https://www.vagrantup.com/downloads.html][vagrant-download]
+
+安装包是二进制文件，根据提示一步一步安装即可。安装程序会将 `vagrant` 命令添加到系统环境（path）变量，安装结束后可通过下面到命令检查：
+
+```bash
+# 在终端下验证 Vagrant 是否安装成功
+$ vagrant --version
+Vagrant 2.2.4
+```
+
+> ⚠️ 关于软件升级：
+>
+> 1. 不要单独升级 VirtualBox 或 Vagrant ，二者需要版本匹配，如果你的 VirtualBox 升级了最新版本，那么一定要检查 Vagrant 是否也做了更新。
+> 2. 升级 VirtualBox 时，需同时升级扩展。
+> 3. 升级 Vagrant 时候，推荐先卸载，再安装最新版本。
 
 ### 3. 配置、启动 Vagrant
 
 #### 3.1. 添加一个 box
 
-> 原始的 box 是一个包含了基本系统和设置的镜像包，你可以通过基础包安装软件或做一些自定义配置，然后导出来成为新的基础包，再次使用的时候，直接导入你之前导出的这个  box 即可。
+从头开始创建一个虚拟机，是一个漫长而乏味的过程，因此 Vagrant 是通过基础镜像包来实现快速克隆创建虚拟机的。这些基础镜像包在 Vagrant 中被称为 `boxes` ， 而在创建 `Vagrantfile` 文件后的第一件事情就是指定 Vagrant 环境使用哪一个 Box。
 
-- 方式一：使用 box 的绝对地址
+原始的 box 是一个包含了基本系统和设置的镜像包，你可以通过基础包安装软件或做一些自定义配置，然后导出来成为新的基础包，再次使用的时候，直接导入你之前导出的这个 box 即可。
+
+如何添加？
+
+- 方式一：使用 [Vagrant 官方仓库][vagrant-box] 中对应的 box 名称
 
 	```bash
-	$ vagrant box add ubuntu1404 https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box
+	# 此种方式无法修改添加的 box 名称
+	# 并且在某些情况下，下载速度可能比较缓慢，所以推荐使用方式二
+	$ vagrant box add ubuntu/xenial64
+	==> box: Loading metadata for box 'ubuntu/xenial64'
+			box: URL: https://vagrantcloud.com/ubuntu/xenial64
+	==> box: Adding box 'ubuntu/xenial64' (v20190807.0.0) for provider: virtualbox
+			box: Downloading: https://vagrantcloud.com/ubuntu/boxes/xenial64/versions/20190807.0.0/providers/virtualbox.box
+			box: Download redirected to host: cloud-images.ubuntu.com
+	==> box: Successfully added box 'ubuntu/xenial64' (v20190807.0.0) for 'virtualbox'!
 	```
 
-- 方式二：使用提前下载好或之前导出的本地 box 文件（ 👍 推荐此种方式，可从 [第三方仓库][vagrant-box-thd] 下载）
+- 方式二：使用 [第三方仓库][vagrant-box-thd]，速度相对快一些，也更灵活
 
 	```bash
+	# 使用 box 的绝对路径
+	$ vagrant box add centos7 https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box
+	==> box: Box file was not detected as metadata. Adding it directly...
+	==> box: Adding box 'centos7' (v0) for provider:
+			box: Downloading: https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box
+			box: Download redirected to host: github-production-release-asset-2e65be.s3.amazonaws.com
+	==> box: Successfully added box 'centos7' (v0) for 'virtualbox'!
+
+	# 使用之前导出的 box 或离线下载好的 box
+	# 导出方式详见下文的常用命令
 	$ vagrant box add ubuntu1604 ./boxs/xenial-server-cloudimg-amd64-vagrant.box
 	==> box: Box file was not detected as metadata. Adding it directly...
 	==> box: Adding box 'ubuntu1604' (v0) for provider:
@@ -111,38 +142,25 @@ oulders of giants. Machines are provisioned on top of **VirtualBox**, **VMware**
 	==> box: Successfully added box 'ubuntu1604' (v0) for 'virtualbox'!
 	```
 
-- 方式三：使用 [Vagrant 官方仓库][vagrant-box] 中对应的 box 名称
-
-	```bash
-	# 此种方式无法修改添加的 box 名称
-	# 并且在某些情况下，下载速度可能比较缓慢，所以推荐使用方式二
-	$ vagrant box add ubuntu/trusty64
-	==> box: Loading metadata for box 'ubuntu/trusty64'
-	    box: URL: https://atlas.hashicorp.com/ubuntu/trusty64
-	==> box: Adding box 'ubuntu/trusty64' (v20171012.0.0) for provider: virtualbox
-	    box: Downloading: https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/20171012.0.0/providers/virtualbox.box
-	==> box: Successfully added box 'ubuntu/trusty64' (v20171012.0.0) for 'virtualbox'!
-	```
-
 检查 box 是否添加成功
 
 ```bash
 $ vagrant box list
-ubuntu/xenial64 (virtualbox, 20171011.0.0)
+centos7         (virtualbox, 0)
+ubuntu/xenial64 (virtualbox, 20190807.0.0)
 ubuntu1604      (virtualbox, 0)
 ```
 
-
 #### 3.2. 初始化、启动
 
-- 创建一个工作目录
+1. 创建一个工作目录
 
 	```bash
 	$ mkdir -p ~/vagrant/lamp
 	$ cd ~/vagrant/lamp
 	```
 
-- 以名字为 *ubuntu/xeninal64* 的 box 初始化 Vagrant
+2. 以名字为 *ubuntu/xeninal64* 的 box 初始化 Vagrant
 
 	```bash
 	$ vagrant init ubuntu/xeninal64
@@ -160,7 +178,7 @@ ubuntu1604      (virtualbox, 0)
 	-rw-r--r--  1 用户名  staff  3011  3  2 21:13 Vagrantfile
 	```
 
-- 启动 Vagrant
+3. 启动 Vagrant
 
 	```bash
 	$ vagrant up
@@ -212,7 +230,7 @@ ubuntu1604      (virtualbox, 0)
 	mount: unknown filesystem type 'vboxsf'
 	```
 
-- 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
+4. 查看当前目录下（Vagrant配置文件）对应的虚拟机的运行状态
 
 	```bash
 	$ vagrant status
@@ -230,8 +248,8 @@ ubuntu1604      (virtualbox, 0)
 
 此时，如果我们打开 VirtualBox 软件，在左侧的列表我们可以看到一个被新添加、并且**正在运行**状态的虚拟机。所以，并不需要打开 VirtualBox 软件，全部由 Vagrant 在命令行进行管理会更方便，参见附录部分：[4. 常用命令](#4-常用命令)
 
-**注意**：
-
+> ⚠️ **注意**：
+>
 > 虽然 Vagrant 已经启动运行了，但是在启动过程可能会报错（一般存在于使用第三方下载的 box 时）：
 >
 > `mount: unknown filesystem type 'vboxsf'`
@@ -481,7 +499,7 @@ reboot
 ```
 
 ```
-cd /opt/VBoxGuestAdditions-*/init  
+cd /opt/VBoxGuestAdditions-*/init
 ./vboxadd setup
 reboot
 ```

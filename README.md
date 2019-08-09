@@ -464,7 +464,7 @@ $ vagrant plugin install vagrant-vbguest
 之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。
 
 
-# 6. 常见问题处理
+### 6. 常见问题处理
 
 #### 6.1. `mount: unknown filesystem type 'vboxsf'`
 

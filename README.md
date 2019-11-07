@@ -89,7 +89,15 @@ Vagrant 支持 Windows、CentOS、Linux x64、macOS 等系统。
 ```bash
 # 在终端下验证 Vagrant 是否安装成功
 $ vagrant --version
-Vagrant 2.2.4
+Vagrant 2.2.6
+
+# 或者执行以下命令
+# 该命令在查看软件版本的同时，会检测是否有新版本需要升级
+$ vagrant version
+Installed Version: 2.2.6
+Latest Version: 2.2.6
+
+You're running an up-to-date version of Vagrant!
 ```
 
 > ⚠️ 关于软件升级：

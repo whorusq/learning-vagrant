@@ -346,6 +346,18 @@ $ vagrant reload
 # 挂起
 $ vagrant suspend
 
+# 创建快照（vm 名称使用 vagrant status 查看）
+$ vagrant snapshot save [vm名称] [快照名称]
+
+# 查看快照列表
+$ vagrant snapshot list
+
+# 还原到指定快照
+$ vagrant snapshot restore [vm名称] [快照名称]
+
+# 删除快照
+$ vagrant snapshot delete [快照名称]
+
 # 关闭、删除 Vagrant 创建的虚拟机资源
 $ vagrant destroy
     default: Are you sure you want to destroy the 'default' VM? [y/N] y

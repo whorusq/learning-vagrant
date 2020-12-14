@@ -478,7 +478,7 @@ $ vagrant reload
 **自动检查同步新版本**
 
 ```bash
-$ vagrant plugin install vagrant-vbguest
+$ vagrant plugin install vagrant-vbguest --plugin-version 0.21
 ```
 
 之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。

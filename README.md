@@ -379,7 +379,10 @@ $ vagrant 命令名 -h
 
 ```bash
 # 虚拟机中 linux 的 hostname
-config.vm.hostname = "ubuntu1604-lamp"
+config.vm.hostname = "vm-ubuntu1604-localhost"
+
+# 虚拟机名称，在类似创建备份等操作中会用到
+config.vm.define "vm-ubuntu1604"
 
 # 网络设置1 - 公有（public_network）网络（允许局域网中其他机器访问）
 config.vm.network "public_network", ip: "192.168.1.223"
@@ -403,7 +406,7 @@ config.vm.provider "virtualbox" do |vb|
 #
 #   # Customize the amount of memory on the VM:
     vb.memory = "512"
-    vb.name = "ubuntu1604-lamp"
+    vb.name = "ubuntu1604"
 end
 ```
 
@@ -481,7 +484,7 @@ $ vagrant reload
 $ vagrant plugin install vagrant-vbguest --plugin-version 0.21
 ```
 
-之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新。
+之后，每次 `vagrant up` 过程中，如果发现虚拟机的 VBoxGuestAdditions 与宿主机不一致，则进行更新；如果之前没安装，则会自动安装。
 
 
 ### 6. 常见问题处理

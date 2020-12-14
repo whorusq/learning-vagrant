@@ -481,6 +481,8 @@ $ vagrant reload
 **自动检查同步新版本**
 
 ```bash
+$ vagrant plugin install vagrant-vbguest
+# 指定一个版本安装
 $ vagrant plugin install vagrant-vbguest --plugin-version 0.21
 ```
 

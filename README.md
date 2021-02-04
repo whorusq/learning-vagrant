@@ -29,6 +29,8 @@ Vagrant 入门指引
 [vagrant-docs]: https://www.vagrantup.com/docs "Vagrant docs"
 [vagrant-box]: https://app.vagrantup.com/boxes/search "Vagrant box"
 [vagrant-box-thd]: http://www.vagrantbox.es "Vagrant box"
+[vagrant-box-thd-tsinghua]: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cloud-images "Vagrant box"
+[vagrant-box-thd-ustc]: https://mirrors.ustc.edu.cn/ubuntu-cloud-images/ "Vagrant box"
 [vagrant-docker]: https://www.zhihu.com/question/32324376 "Vagrant Docker"
 [virtualbox-download]: https://www.virtualbox.org/wiki/Downloads "Virtualbox Download"
 [vagrant-download]: https://www.vagrantup.com/downloads.html "Vagrant Download"
@@ -43,7 +45,7 @@ Vagrant 入门指引
 * 文档（英文）：[https://www.vagrantup.com/docs][vagrant-docs]
 * 文档（中文）：[https://tangbaoping.github.io/vagrant_doc_zh/v2](https://tangbaoping.github.io/vagrant_doc_zh/v2)
 * 官方 box 仓库：[https://app.vagrantup.com/boxes/search][vagrant-box]
-* 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]
+* 第三方 box 仓库：[http://www.vagrantbox.es][vagrant-box-thd]（还有[清华][vagrant-box-thd-tsinghua]、[中科大 👍][vagrant-box-thd-ustc]）
 * CentOS 官方 box 地址：[http://cloud.centos.org/centos/7/vagrant/x86_64/images/](http://cloud.centos.org/centos/7/vagrant/x86_64/images/)
 * Ubuntu 官方 box 地址：[http://cloud-images.ubuntu.com](http://cloud-images.ubuntu.com)
 
@@ -130,7 +132,7 @@ You're running an up-to-date version of Vagrant!
 	==> box: Successfully added box 'ubuntu/xenial64' (v20190807.0.0) for 'virtualbox'!
 	```
 
-- 方式二：使用 [第三方仓库][vagrant-box-thd]，速度相对快一些，也更灵活
+- 方式二：使用 [第三方仓库][vagrant-box-thd]（还有[清华][vagrant-box-thd-tsinghua]、[中科大 👍][vagrant-box-thd-ustc]），速度相对快一些，也更灵活
 
 	```bash
 	# 使用 box 的绝对路径

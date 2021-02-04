@@ -136,12 +136,12 @@ You're running an up-to-date version of Vagrant!
 
 	```bash
 	# 使用 box 的绝对路径
-	$ vagrant box add centos7 https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box
+	$ vagrant box add ubuntu1804 https://mirrors.ustc.edu.cn/ubuntu-cloud-images/xenial/current/xenial-server-cloudimg-amd64-vagrant.box
 	==> box: Box file was not detected as metadata. Adding it directly...
-	==> box: Adding box 'centos7' (v0) for provider:
-			box: Downloading: https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box
-			box: Download redirected to host: github-production-release-asset-2e65be.s3.amazonaws.com
-	==> box: Successfully added box 'centos7' (v0) for 'virtualbox'!
+	==> box: Adding box 'ubuntu1804' (v0) for provider:
+			box: Downloading: https://mirrors.ustc.edu.cn/ubuntu-cloud-images/xenial/current/xenial-server-cloudimg-amd64-vagrant.box
+			box:
+	==> box: Successfully added box 'ubuntu1804' (v0) for 'virtualbox'!
 
 	# 使用之前导出的 box 或离线下载好的 box
 	# 导出方式详见下文的常用命令
